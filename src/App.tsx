@@ -26,9 +26,13 @@ const App = observer(() => {
     state.setIsLoading(true);
     setTimeout(
       () =>
-        UsersApi.getUsers().then((users) => {
+        UsersApi.getUsers().then((usersResponse) => {
+          const { data: usersData } = usersResponse;
           state.setIsLoading(false);
-          state.setUsers(users.data);
+          state.setUsers(usersData);
+          for (const user of usersData) {
+            UsersApi.getPhoto(user.id).then((photoResponse) => state.addPhotos(photoResponse.data));
+          }
         }),
       1500
     );
@@ -82,7 +86,7 @@ const App = observer(() => {
                 <ListItem key={user.id} disablePadding>
                   <ListItemButton onClick={handleCLick(user.name)}>
                     <ListItemAvatar>
-                      <Avatar alt={`${user.id}`} src={'https://via.placeholder.com/600/92c952'} />
+                      <Avatar alt={`${user.id}`} src={state.photos[user.id]} />
                     </ListItemAvatar>
                     <ListItemText primary={user.name} />
                   </ListItemButton>
