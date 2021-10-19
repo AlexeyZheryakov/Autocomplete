@@ -1,0 +1,12 @@
+.loader {
+    background: url('../Autocomplete/image/preloader.png') no-repeat;
+    width: 72px;
+    height: 72px;
+    animation: loader 1.3s linear infinite;
+}
+
+@keyframes loader {
+    100% {
+        transform: rotate(360deg);
+    }
+}

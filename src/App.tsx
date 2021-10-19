@@ -10,34 +10,31 @@ interface IUsersWithPhoto extends IUser {
 }
 
 const App = observer(() => {
-  const [currentUser, setCurrentUser] = React.useState('');
-  const options: Array<IUsersWithPhoto> = state.users.map((user) => {
-    return { ...user, photoUrl: state.photos[user.id] };
-  });
+  const timeOut = React.useRef<ReturnType<typeof setTimeout> | undefined>();
+  const options: Array<IUsersWithPhoto> = state.users.map((user) => ({ ...user, photoUrl: state.photos[user.id] }));
   const getUsers = () => {
-    if (!state.users.length) {
-      state.setIsLoading(true);
-      setTimeout(
-        () =>
-          UsersApi.getUsers().then((usersResponse) => {
-            const { data: usersData } = usersResponse;
-            state.setIsLoading(false);
-            state.setUsers(usersData);
-            for (const user of usersData) {
-              UsersApi.getPhoto(user.id).then((photoResponse) => state.addPhotos(photoResponse.data));
-            }
-          }),
-        1500
-      );
-    }
+    state.setIsLoading(true);
+    UsersApi.getUsers().then((usersResponse) => {
+      const { data: usersData } = usersResponse;
+      state.setIsLoading(false);
+      state.setUsers(usersData);
+      for (const user of usersData) {
+        UsersApi.getPhoto(user.id).then((photoResponse) => state.addPhotos(photoResponse.data));
+      }
+    });
   };
   const handleChange = (value: string) => {
-    setCurrentUser(value);
-    getUsers();
+    if (timeOut.current) {
+      clearTimeout(timeOut.current);
+    }
+    state.setCurrentUser(value);
+    timeOut.current = setTimeout(() => {
+      getUsers();
+    }, 500);
   };
   return (
     <>
-      <Autocomplete onChange={handleChange} value={currentUser} options={options} isLoading={state.isLoading} />
+      <Autocomplete onChange={handleChange} value={state.currentUser} options={options} isLoading={state.isLoading} />
     </>
   );
 });

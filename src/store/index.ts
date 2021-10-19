@@ -10,6 +10,8 @@ class State {
 
   photos: IPhotos = {};
 
+  currentUser: string = '';
+
   isLoading: boolean = false;
 
   constructor() {
@@ -26,6 +28,10 @@ class State {
 
   addPhotos(photo: IPhoto) {
     this.photos = { ...this.photos, [photo.id]: photo.url };
+  }
+
+  setCurrentUser(currentUser: string) {
+    this.currentUser = currentUser;
   }
 }
 
