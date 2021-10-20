@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import state from './store';
+import state, { IPhotos } from './store';
 import Autocomplete from './Components/Autocomplete';
 import UsersApi, { IUser } from './Api/Users';
 import { observer } from 'mobx-react-lite';
@@ -10,6 +10,7 @@ interface IUsersWithPhoto extends IUser {
 }
 
 const App = observer(() => {
+  const SEND_REQUEST_DELAY = 500;
   const timeOut = React.useRef<ReturnType<typeof setTimeout> | undefined>();
   const options: Array<IUsersWithPhoto> = state.users.map((user) => ({ ...user, photoUrl: state.photos[user.id] }));
   const getUsers = () => {
@@ -18,9 +19,11 @@ const App = observer(() => {
       const { data: usersData } = usersResponse;
       state.setIsLoading(false);
       state.setUsers(usersData);
-      for (const user of usersData) {
-        UsersApi.getPhoto(user.id).then((photoResponse) => state.addPhotos(photoResponse.data));
-      }
+      UsersApi.getPhotos(usersData).then((responsePhotos) => {
+        const photos: IPhotos = {};
+        responsePhotos.forEach((photo) => (photos[photo.data.id] = photo.data.url));
+        state.addPhotos(photos);
+      });
     });
   };
   const handleChange = (value: string) => {
@@ -30,7 +33,7 @@ const App = observer(() => {
     state.setCurrentUser(value);
     timeOut.current = setTimeout(() => {
       getUsers();
-    }, 500);
+    }, SEND_REQUEST_DELAY);
   };
   return (
     <>

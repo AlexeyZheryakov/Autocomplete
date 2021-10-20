@@ -76,9 +76,7 @@ const Autocomplete: React.FC<IAutocomplete> = ({ onChange: handleChange, value, 
               alignItems: 'center',
             }}
           >
-            <div className="loader">
-              <img src="../Autocomplete/image/preloader.svg" alt="" />
-            </div>
+            <div className="loader"></div>
           </Box>
         )}
         {isOpen && !isLoading && (

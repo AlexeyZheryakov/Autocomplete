@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
-import { IUser, IPhoto } from '../Api/Users';
+import { IUser } from '../Api/Users';
 
-interface IPhotos {
+export interface IPhotos {
   [key: string]: string;
 }
 
@@ -26,8 +26,8 @@ class State {
     this.isLoading = isLoading;
   }
 
-  addPhotos(photo: IPhoto) {
-    this.photos = { ...this.photos, [photo.id]: photo.url };
+  addPhotos(photos: IPhotos) {
+    this.photos = photos;
   }
 
   setCurrentUser(currentUser: string) {
