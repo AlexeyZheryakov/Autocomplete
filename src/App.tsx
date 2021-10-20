@@ -20,8 +20,10 @@ const App = observer(() => {
       state.setIsLoading(false);
       state.setUsers(usersData);
       UsersApi.getPhotos(usersData).then((responsePhotos) => {
-        const photos: IPhotos = {};
-        responsePhotos.forEach((photo) => (photos[photo.data.id] = photo.data.url));
+        const photos: IPhotos = responsePhotos.reduce(
+          (total, response) => ({ ...total, [response.data.id]: response.data.url }),
+          {}
+        );
         state.addPhotos(photos);
       });
     });
@@ -35,9 +37,18 @@ const App = observer(() => {
       getUsers();
     }, SEND_REQUEST_DELAY);
   };
+  const handleSelect = (value: string) => {
+    state.setCurrentUser(value);
+  };
   return (
     <>
-      <Autocomplete onChange={handleChange} value={state.currentUser} options={options} isLoading={state.isLoading} />
+      <Autocomplete
+        onChange={handleChange}
+        value={state.currentUser}
+        options={options}
+        isLoading={state.isLoading}
+        onSelect={handleSelect}
+      />
     </>
   );
 });

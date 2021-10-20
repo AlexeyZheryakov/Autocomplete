@@ -20,18 +20,25 @@ interface IOption {
 
 interface IAutocomplete {
   onChange: (value: string) => void;
+  onSelect: (value: string) => void;
   value: string;
   options: Array<IOption>;
   isLoading: boolean;
 }
 
-const Autocomplete: React.FC<IAutocomplete> = ({ onChange: handleChange, value, options, isLoading }) => {
+const Autocomplete: React.FC<IAutocomplete> = ({
+  onChange: handleChange,
+  value,
+  options,
+  isLoading,
+  onSelect: handleSelect,
+}) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleChange(e.target.value);
   };
   const handleBlur = () => setTimeout(() => setIsOpen(false), 200);
-  const handleCLick = (val: string) => () => handleChange(val);
+  const handleCLick = (val: string) => () => handleSelect(val);
   const handleFocus = () => setIsOpen(true);
   return (
     <Box
