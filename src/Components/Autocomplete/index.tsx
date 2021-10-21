@@ -1,4 +1,5 @@
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 import './style.css';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
@@ -19,26 +20,21 @@ interface IOption {
 }
 
 interface IAutocomplete {
-  onChange: (value: string) => void;
-  onSelect: (value: string) => void;
+  onChange: () => void;
   value: string;
   options: Array<IOption>;
   isLoading: boolean;
 }
 
-const Autocomplete: React.FC<IAutocomplete> = ({
-  onChange: handleChange,
-  value,
-  options,
-  isLoading,
-  onSelect: handleSelect,
-}) => {
+const Autocomplete: React.FC<IAutocomplete> = observer(({ onChange: handleChange, value, options, isLoading }) => {
+  const [currentValue, setCurrentValue] = React.useState(value);
   const [isOpen, setIsOpen] = React.useState(false);
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    handleChange(e.target.value);
+    handleChange();
+    setCurrentValue(e.target.value);
   };
   const handleBlur = () => setTimeout(() => setIsOpen(false), 200);
-  const handleCLick = (val: string) => () => handleSelect(val);
+  const handleCLick = (val: string) => () => setCurrentValue(val);
   const handleFocus = () => setIsOpen(true);
   return (
     <Box
@@ -51,7 +47,7 @@ const Autocomplete: React.FC<IAutocomplete> = ({
       <TextField
         onFocus={handleFocus}
         onBlur={handleBlur}
-        value={value}
+        value={currentValue}
         onChange={onChange}
         placeholder="Search"
         sx={{ paddingTop: '40px', width: '100%' }}
@@ -83,7 +79,7 @@ const Autocomplete: React.FC<IAutocomplete> = ({
               alignItems: 'center',
             }}
           >
-            <div className="loader"></div>
+            <div role="progressbar" className="loader"></div>
           </Box>
         )}
         {isOpen && !isLoading && (
@@ -91,7 +87,7 @@ const Autocomplete: React.FC<IAutocomplete> = ({
             {options
               .filter(
                 (option: IOption) =>
-                  option.name.toLowerCase().includes(value.toLocaleLowerCase()) && option.name !== value
+                  option.name.toLowerCase().includes(currentValue.toLocaleLowerCase()) && option.name !== value
               )
               .map((option: IOption) => {
                 return (
@@ -110,6 +106,6 @@ const Autocomplete: React.FC<IAutocomplete> = ({
       </Box>
     </Box>
   );
-};
+});
 
 export default Autocomplete;

@@ -10,8 +10,6 @@ class State {
 
   photos: IPhotos = {};
 
-  currentUser: string = '';
-
   isLoading: boolean = false;
 
   constructor() {
@@ -28,10 +26,6 @@ class State {
 
   addPhotos(photos: IPhotos) {
     this.photos = photos;
-  }
-
-  setCurrentUser(currentUser: string) {
-    this.currentUser = currentUser;
   }
 }
 

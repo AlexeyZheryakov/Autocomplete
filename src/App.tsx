@@ -28,27 +28,17 @@ const App = observer(() => {
       });
     });
   };
-  const handleChange = (value: string) => {
+  const handleChange = () => {
     if (timeOut.current) {
       clearTimeout(timeOut.current);
     }
-    state.setCurrentUser(value);
     timeOut.current = setTimeout(() => {
       getUsers();
     }, SEND_REQUEST_DELAY);
   };
-  const handleSelect = (value: string) => {
-    state.setCurrentUser(value);
-  };
   return (
     <>
-      <Autocomplete
-        onChange={handleChange}
-        value={state.currentUser}
-        options={options}
-        isLoading={state.isLoading}
-        onSelect={handleSelect}
-      />
+      <Autocomplete onChange={handleChange} value={''} options={options} isLoading={state.isLoading} />
     </>
   );
 });
