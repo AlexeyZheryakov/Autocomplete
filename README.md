@@ -1,3 +1,6 @@
+# Тестовое задание Frontend разработчик connect
+
+Тестовое задание писал по вечерам 4 - 5 часов в течение 6 дней, около 30 часов в общей сложности.
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
