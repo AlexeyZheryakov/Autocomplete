@@ -26,7 +26,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverageReporters=\"lcov\" --coverage --coverageDirectory=\"coverage\" --reporters=\"default\" --reporters=\"jest-sonar\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -56,6 +56,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "jest-sonar": "^0.2.12",
     "prettier": "^2.4.1"
   }
 }

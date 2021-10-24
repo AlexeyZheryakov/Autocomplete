@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 import Autocomplete from '.';
 
 const options = [
-  { name: 'Igor', id: 1, photoUrl: '', email: '' },
-  { name: 'Nikita', id: 2, photoUrl: '', email: '' },
-  { name: 'Alexei', id: 3, photoUrl: '', email: '' },
+  { name: 'Igor', id: 1, photoUrl: '', username: '' },
+  { name: 'Nikita', id: 2, photoUrl: '', username: '' },
+  { name: 'Alexei', id: 3, photoUrl: '', username: '' },
 ];
 
 describe('Autocomplete', () => {
