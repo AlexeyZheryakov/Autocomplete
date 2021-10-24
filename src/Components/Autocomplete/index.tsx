@@ -16,7 +16,7 @@ interface IOption {
   id: number;
   name: string;
   photoUrl: string;
-  email: string;
+  username: string;
 }
 
 interface IAutocomplete {
@@ -96,7 +96,7 @@ const Autocomplete: React.FC<IAutocomplete> = observer(({ onChange: handleChange
                       <ListItemAvatar>
                         <Avatar alt={`${option.id}`} src={option.photoUrl} />
                       </ListItemAvatar>
-                      <ListItemText primary={option.name} secondary={option.email} />
+                      <ListItemText primary={option.name} secondary={`@${option.username}`} />
                     </ListItemButton>
                   </ListItem>
                 );

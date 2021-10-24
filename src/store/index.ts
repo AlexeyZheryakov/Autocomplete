@@ -10,7 +10,7 @@ class State {
 
   photos: IPhotos = {};
 
-  isLoading: boolean = false;
+  error: string = '';
 
   constructor() {
     makeAutoObservable(this);
@@ -20,8 +20,8 @@ class State {
     this.users = users;
   }
 
-  setIsLoading(isLoading: boolean) {
-    this.isLoading = isLoading;
+  setError(error: string) {
+    this.error = error;
   }
 
   addPhotos(photos: IPhotos) {
